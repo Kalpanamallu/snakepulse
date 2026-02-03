@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snake Pulse</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js");
+  });
+}
+</script>
+
+
+<body>
+
+ <div id="loadingScreen" style="
+  position:fixed;
+  inset:0;
+  background:#071021;
+  display:flex;
+  flex-direction:column;   /* 👈 THIS LINE FIXES IT */
+  align-items:center;
+  justify-content:center;
+  gap:20px;               /* space between logo & text */
+  z-index:99999;
+">
+
+
+  <!-- LOADING TEXT -->
+  <div style="
+    display:flex;
+    gap:12px;
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:6px;
+  ">
+    <span style="color:#00ffff; animation:jump 1s infinite;">L</span>
+    <span style="color:#7CFC00; animation:jump 1s infinite .1s;">O</span>
+    <span style="color:#ff4f81; animation:jump 1s infinite .2s;">A</span>
+    <span style="color:#ffd700; animation:jump 1s infinite .3s;">D</span>
+    <span style="color:#00ff7f; animation:jump 1s infinite .4s;">I</span>
+    <span style="color:#ff7cff; animation:jump 1s infinite .5s;">N</span>
+    <span style="color:#00bfff; animation:jump 1s infinite .6s;">G</span>
+  </div>
+  <div style="
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  color:#888;
+  opacity:0.7;
+">
+  © 2026 Mkgames. All rights reserved.
+</div>
+</div>
+
+<style>
+@keyframes jump{
+  0%{
+    transform:translateY(0);
+    opacity:.4;
+    text-shadow:0 0 6px currentColor;
+  }
+  50%{
+    transform:translateY(-14px);
+    opacity:1;
+    text-shadow:
+      0 0 12px currentColor,
+      0 0 24px currentColor;
+  }
+  100%{
+    transform:translateY(0);
+    opacity:.4;
+    text-shadow:0 0 6px currentColor;
+  }
+}
+</style>
+<script>
+  setTimeout(() => {
+    const l = document.getElementById("loadingScreen");
+    if(l) l.style.display = "none";
+  }, 3000);
+</script>
+
+
+  <!-- SCOREBOARD -->
+  <div class="scoreboard">
+    <div>Score : <span id="currentScore">0</span></div>
+    <div>High Score : <span id="highScore">0</span></div>
+  </div>
+
+  
+
+
+  <!-- GAME AREA -->
+  <div class="game-wrapper">
+    <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <div id="goodMsg"></div>
+
+    <!-- ✅ MOBILE CONTROLS (GRID READY) -->
+    <div id="mobile-controls">
+      <button id="btn-up" onclick="pressKey('ArrowUp')">▲</button>
+      <button id="btn-left" onclick="pressKey('ArrowLeft')">◀</button>
+      <button id="btn-right" onclick="pressKey('ArrowRight')">▶</button>
+      <button id="btn-down" onclick="pressKey('ArrowDown')">▼</button>
+    </div>
+  </div>
+
+  <!-- LEVEL SELECT OVERLAY -->
+  <div id="levelSelect" class="overlay">
+    <h2>Select Level</h2>
+    <div class="levels">
+      <button class="level-btn" data-speed="220">Easy</button>
+      <button class="level-btn" data-speed="180">Medium</button>
+      <button class="level-btn" data-speed="160">Hard</button>
+    </div>
+  </div>
+
+  <!-- GAME OVER OVERLAY -->
+  <div id="gameOverOverlay" class="overlay hidden">
+    <h2>Game Over</h2>
+    <button id="restartBtn">Restart</button>
+  </div>
+
+  <!-- AUDIO -->
+ <!---- <audio id="bgMusic" src="bg.mp3" loop></audio>--->
+  <audio id="uiClick" src="click.mp3" preload="auto"></audio>
+  <audio id="eatSound" src="eat.mp3"></audio>
+  <audio id="gameOverSound" src="gameover.mp3"></audio>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+

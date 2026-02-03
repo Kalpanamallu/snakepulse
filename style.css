@@ -1,0 +1,380 @@
+:root{
+  --bg:#071021;
+  --accent:#7CFC00;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  padding-top:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  font-family:"Segoe UI",Roboto,system-ui,sans-serif;
+  background:linear-gradient(180deg,#071021 0%,#0c0f1a 100%);
+  color:#e6eef8;
+}
+
+/* ================= TITLE ================= */
+.title{
+  font-size:32px;
+  font-weight:800;
+  margin-bottom:10px;
+  background:linear-gradient(90deg,#00ff7f,#00ffff,#7cff00,#ff7cff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 12px rgba(0,255,200,.3);
+}
+
+/* ================= CANVAS NEON ================= */
+@keyframes rainbowGlow{
+  0%,100%{box-shadow:0 0 15px #7CFC00,0 0 30px #00ffff;}
+  50%{box-shadow:0 0 25px #ff00ff,0 0 50px #ff7f00;}
+}
+
+@keyframes rainbowBorder{
+  0%{border-color:#FF4F81;}
+  25%{border-color:#00FFFF;}
+  50%{border-color:#00FF7F;}
+  75%{border-color:#FFD700;}
+  100%{border-color:#FF4F81;}
+}
+
+canvas{
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(255,255,255,0.02),transparent 10%),
+    linear-gradient(180deg,rgba(255,255,255,0.01),rgba(0,0,0,0.05));
+  border:5px solid;
+  animation:rainbowGlow 3s infinite alternate,
+            rainbowBorder 6s linear infinite;
+}
+
+/* ================= SCOREBOARD ================= */
+.scoreboard{
+  display:flex;
+  justify-content:space-between;
+  width:520px;
+  font-weight:800;
+  font-size:22px;
+  color:#ffd166;
+  text-shadow:0 0 6px #7CFC00,0 0 12px #00ffff;
+  margin:10px 0 18px;
+  padding:6px 14px;
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(0,0,0,0.4),rgba(20,20,30,0.6));
+  border:2px solid rgba(124,252,0,0.3);
+  box-shadow:0 0 12px #7CFC00,0 0 24px #00ffff;
+}
+
+.scoreboard span{
+  color:#00ff7f;
+  font-size:24px;
+}
+
+/* ================= GAME WRAPPER ================= */
+.game-wrapper{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+}
+
+/* ================= GOOD JOB ================= */
+#goodMsg{
+  color:#ff69b4;
+  font-size:22px;
+  font-weight:800;
+  text-shadow:0 0 12px #ff69b4,0 0 20px #ffb3ff;
+  height:26px;
+}
+
+/* ================= OVERLAYS ================= */
+.overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+  z-index:20;
+  backdrop-filter:blur(6px);
+  background:
+    radial-gradient(circle at top, rgba(124,252,0,0.08), transparent 40%),
+    linear-gradient(180deg, rgba(0,0,0,0.88), rgba(0,0,0,0.95));
+}
+
+.hidden{display:none;}
+
+/* ================= SELECT LEVEL ================= */
+#levelSelect h2{
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:1px;
+  background:linear-gradient(90deg,#00ffff,#7CFC00,#ff7cff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 22px rgba(124,252,0,0.7);
+  animation:levelPulse 2s infinite alternate;
+}
+
+@keyframes levelPulse{
+  from{ text-shadow:0 0 12px #00ffff; }
+  to{ text-shadow:0 0 30px #7CFC00; }
+}
+
+.levels{
+  display:flex;
+  gap:18px;
+}
+
+/* ================= LEVEL BUTTONS ================= */
+.level-btn{
+  position:relative;
+  padding:14px 32px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(180deg,#141a2a,#1e2438);
+  color:#e6faff;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  overflow:hidden;
+  box-shadow:
+    0 0 12px rgba(124,252,0,0.3),
+    inset 0 0 8px rgba(0,255,255,0.15);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+
+.level-btn:hover{
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:
+    0 0 18px #00ffff,
+    0 0 36px rgba(124,252,0,0.8);
+}
+
+.level-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.25),
+    transparent 70%
+  );
+  transform:translateX(-120%);
+}
+
+.level-btn:hover::after{
+  animation:shineSweep 0.9s forwards;
+}
+
+@keyframes shineSweep{
+  to{ transform:translateX(120%); }
+}
+
+.level-btn.selected{
+  background:linear-gradient(180deg,#1dff7a,#0a3d2a);
+  color:#041b10;
+  box-shadow:
+    0 0 20px #7CFC00,
+    0 0 50px rgba(124,252,0,0.9);
+}
+
+/* ================= GAME OVER ================= */
+#gameOverOverlay h2{
+  font-size:48px;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#ff4f81,#ff7f50,#ffd700);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:gameOverPulse 1.6s infinite;
+}
+
+@keyframes gameOverPulse{
+  0%{
+    transform:scale(1);
+    filter:drop-shadow(0 0 10px #ff4f81);
+  }
+  50%{
+    transform:scale(1.07);
+    filter:drop-shadow(0 0 32px #ff4f81);
+  }
+  100%{
+    transform:scale(1);
+    filter:drop-shadow(0 0 10px #ff4f81);
+  }
+}
+
+/* ================= RESTART BUTTON ================= */
+#restartBtn{
+  padding:14px 34px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(90deg,#ff7a7a,#ff5733);
+  color:#fff;
+  font-weight:800;
+  font-size:20px;
+  cursor:pointer;
+  animation:restartGlow 1.3s infinite alternate;
+  transition:transform 0.2s ease;
+}
+
+#restartBtn:hover{
+  transform:scale(1.08);
+}
+
+@keyframes restartGlow{
+  0%{
+    box-shadow:
+      0 0 12px #ff7a7a,
+      0 0 24px #ff5733,
+      0 0 40px rgba(255,180,180,0.6);
+  }
+  100%{
+    box-shadow:
+      0 0 20px #ff7a7a,
+      0 0 40px #ff5733,
+      0 0 70px rgba(255,180,180,0.9);
+  }
+}
+
+/* ================= MOBILE CANVAS ================= */
+@media (max-width:768px){
+  canvas{
+    margin-top:6px;
+    width:88vw;
+    height:88vw;
+    max-width:360px;
+    max-height:360px;
+  }
+
+  .scoreboard{
+    width:90vw;
+    max-width:360px;
+    font-size:18px;
+  }
+}
+
+/* ================= MOBILE CONTROLS ================= */
+
+/* ❌ Desktop – hide */
+@media (min-width:769px){
+  #mobile-controls{display:none;}
+}
+
+/* 📱 Mobile – 10×10 grid */
+@media (max-width:768px){
+  #mobile-controls{
+    margin-top: 10px;          /* 👈 very near to canvas */
+    width: 200px;
+    height: 160px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    place-items: center;
+
+    z-index: 10;
+  }
+
+  #mobile-controls button{
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+    border-radius: 16px;
+    background:#0c1220;
+    color:var(--accent);
+    border:1px solid rgba(124,252,0,0.4);
+    box-shadow:
+      0 0 10px rgba(124,252,0,0.5),
+      inset 0 0 6px rgba(124,252,0,0.3);
+  }
+
+  /* 🔼 UP */
+  #btn-up{
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  /* ◀ LEFT */
+  #btn-left{
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  /* ▶ RIGHT */
+  #btn-right{
+    grid-row: 2;
+    grid-column: 3;
+  }
+
+  /* 🔽 DOWN */
+  #btn-down{
+    grid-row: 3;
+    grid-column: 2;
+  }
+}
+
+  #mobile-controls button:active{
+    transform:scale(0.9);
+  }
+}
+/* ===== LOADING SCREEN ===== */
+#loadingScreen{
+  position: fixed;
+  inset: 0;
+  background: #071021;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* LOADING letters */
+.loading-text{
+  display: flex;
+  gap: 10px;
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+/* Neon animation */
+.loading-text span{
+  animation: neonJump 1.2s infinite;
+}
+
+/* Different colors */
+.loading-text span:nth-child(1){ color:#00ffff; animation-delay:0s; }
+.loading-text span:nth-child(2){ color:#7CFC00; animation-delay:.1s; }
+.loading-text span:nth-child(3){ color:#ff4f81; animation-delay:.2s; }
+.loading-text span:nth-child(4){ color:#ffd700; animation-delay:.3s; }
+.loading-text span:nth-child(5){ color:#00ff7f; animation-delay:.4s; }
+.loading-text span:nth-child(6){ color:#ff7cff; animation-delay:.5s; }
+.loading-text span:nth-child(7){ color:#00bfff; animation-delay:.6s; }
+
+@keyframes neonJump{
+  0%{
+    transform: translateY(0);
+    text-shadow: 0 0 6px currentColor;
+    opacity: .4;
+  }
+  50%{
+    transform: translateY(-14px);
+    text-shadow:
+      0 0 12px currentColor,
+      0 0 24px currentColor;
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(0);
+    text-shadow: 0 0 6px currentColor;
+    opacity: .4;
+  }
+}
